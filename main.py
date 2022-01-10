@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import FastAPI
 
 from validators import (
@@ -23,8 +25,13 @@ movie_coll = {
 }
 
 
-@app.get("/movies/{movie_id}")
-def get_movie(movie_id: int):
+@app.get("/movies", response_model=List[Movie])
+def get_movie_list():
+    return movie_coll
+
+
+@app.get("/movies/{movie_id}", response_model=Movie)
+def get_a_movie(movie_id: int):
     movie = movie_coll.get(movie_id)
 
     if movie is not None:
@@ -36,14 +43,14 @@ def get_movie(movie_id: int):
 
 
 @app.post("/movies/{movie_id}")
-def create_movie(movie_id: int, movie: Movie):
+def create_a_movie(movie_id: int, movie: Movie):
     movie.id = movie_id
     movie_coll[movie_id] = movie
     return movie_coll[movie_id]
 
 
 @app.put("/movies/{movie_id}")
-def update_movie(movie_id: int, updates: MovieUpdate):
+def update_a_movie(movie_id: int, updates: MovieUpdate):
     # Little funky below since we're in memory atm
     movie = movie_coll[movie_id].dict()
     updates = updates.dict()
@@ -58,7 +65,7 @@ def update_movie(movie_id: int, updates: MovieUpdate):
 
 
 @app.delete("/movies/{movie_id}")
-def delete_movie(movie_id: int):
+def delete_a_movie(movie_id: int):
     if movie_coll.get(movie_id):
         del movie_coll[movie_id]
         status = f"Deletion of Movie ID: {movie_id} successful."
