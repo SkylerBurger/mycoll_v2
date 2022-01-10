@@ -2,7 +2,7 @@ from typing import List
 
 from fastapi import FastAPI
 
-from validators import (
+from schemas import (
     Movie,
     MovieUpdate,
 )
