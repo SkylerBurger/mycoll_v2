@@ -1,8 +1,9 @@
 from sqlalchemy import Column, Integer, Text, String
-from database import MyCollDeclarativeBase
+
+from database import Base
 
 
-class Movie(MyCollDeclarativeBase):
+class Movie(Base):
     __tablename__ = "movies"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -13,7 +14,7 @@ class Movie(MyCollDeclarativeBase):
     runtime_minutes = Column(Integer)
 
 
-class MyCollUser(MyCollDeclarativeBase):
+class MyCollUser(Base):
     __tablename__ = 'mycoll_users'
 
     id = Column(Integer, primary_key=True, index=True)

@@ -21,11 +21,11 @@ services:
     volumes:
         - postgres_data:/var/lib/postgresql/data/
 
-  broker:
-    image: rabbitmq:3.9-management
-    ports:
-      - "5672:5672"
-      - "15672:15672"
+#  broker:
+#    image: rabbitmq:3.9-management
+#    ports:
+#      - "5672:5672"
+#      - "15672:15672"
 
 volumes:
     postgres_data:
