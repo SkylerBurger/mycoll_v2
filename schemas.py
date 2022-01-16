@@ -13,6 +13,9 @@ class Movie(BaseModel):
     image_link: Optional[str]
     tmdb_page_link: Optional[str]
 
+    class Config:
+        orm_mode = True
+
 
 class MovieUpdate(BaseModel):
     title: Optional[str]
@@ -22,3 +25,6 @@ class MovieUpdate(BaseModel):
     runtime_minutes: Optional[int]
     image_link: Optional[str]
     tmdb_page_link: Optional[str]
+
+    class Config:
+        orm_mode = True

@@ -1,11 +1,9 @@
 from sqlalchemy import Column, Integer, Text, String
+from database import MyCollDeclarativeBase
 
-# from somewhere import instantiated_declaractive_base
 
-
-# This needs to inherit from the instantiated declarative base
-class Movie():
-    __tablename__ = "Movies"
+class Movie(MyCollDeclarativeBase):
+    __tablename__ = "movies"
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(255))
@@ -13,5 +11,11 @@ class Movie():
     overview = Column(Text)
     mpaa_rating = Column(String(255))
     runtime_minutes = Column(Integer)
-    image_link = Column(String)
-    tmdb_page_link = Column(String)
+
+
+class MyCollUser(MyCollDeclarativeBase):
+    __tablename__ = 'mycoll_users'
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(50))
+    age = Column(Integer)

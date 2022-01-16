@@ -2,19 +2,19 @@ from typing import List
 
 from fastapi import FastAPI
 
-from schemas import (
-    Movie,
-    MovieUpdate,
-)
+from database import engine, session
+import models
+import schemas
 
 
+models.MyCollDeclarativeBase.metadata.create_all(bind=engine)
 app = FastAPI()
 
 
 # Collection in memory for initial testing
 # TODO: Get real DB action going with SQLAlchemy
 movie_coll = {
-    1: Movie(
+    1: schemas.Movie(
         id=1,
         title="Sphere",
         release_year=1988,
@@ -25,12 +25,12 @@ movie_coll = {
 }
 
 
-@app.get("/movies", response_model=List[Movie])
+@app.get("/movies", response_model=List[schemas.Movie])
 def get_movie_list():
     return movie_coll
 
 
-@app.get("/movies/{movie_id}", response_model=Movie)
+@app.get("/movies/{movie_id}", response_model=schemas.Movie)
 def get_a_movie(movie_id: int):
     movie = movie_coll.get(movie_id)
 
@@ -43,14 +43,14 @@ def get_a_movie(movie_id: int):
 
 
 @app.post("/movies/{movie_id}")
-def create_a_movie(movie_id: int, movie: Movie):
+def create_a_movie(movie_id: int, movie: schemas.Movie):
     movie.id = movie_id
     movie_coll[movie_id] = movie
     return movie_coll[movie_id]
 
 
 @app.put("/movies/{movie_id}")
-def update_a_movie(movie_id: int, updates: MovieUpdate):
+def update_a_movie(movie_id: int, updates: schemas.MovieUpdate):
     # Little funky below since we're in memory atm
     movie = movie_coll[movie_id].dict()
     updates = updates.dict()
@@ -59,7 +59,7 @@ def update_a_movie(movie_id: int, updates: MovieUpdate):
         if value is not None:
             movie[key] = value
 
-    movie_coll[movie_id] = Movie(**movie)
+    movie_coll[movie_id] = schemas.Movie(**movie)
 
     return movie_coll[movie_id]
 
