@@ -16,15 +16,3 @@ class Movie(MovieBase):
 
     class Config:
         orm_mode = True
-
-
-class MyCollUserBase(BaseModel):
-    name: str
-    age: int
-
-
-class MyCollUser(MyCollUserBase):
-    id: int
-
-    class Config:
-        orm_mode = True
