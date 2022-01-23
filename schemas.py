@@ -4,11 +4,11 @@ from pydantic import BaseModel
 
 
 class MovieBase(BaseModel):
-    title: Optional[str]
-    release_year: Optional[int]
-    overview: Optional[str]
-    mpaa_rating: Optional[str]
-    runtime_minutes: Optional[int]
+    title: str | None = None
+    release_year: int | None = None
+    overview: str | None = None
+    mpaa_rating: str | None = None
+    runtime_minutes: int | None = None
 
 
 class Movie(MovieBase):
@@ -16,3 +16,9 @@ class Movie(MovieBase):
 
     class Config:
         orm_mode = True
+
+
+class User(BaseModel):
+    username: str
+    email: str | None = None
+    disabled: bool | None = None

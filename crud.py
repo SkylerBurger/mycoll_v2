@@ -24,7 +24,9 @@ def create_movie(db: Session, movie: schemas.MovieBase) -> models.Movie:
     return db_movie
 
 
-def update_movie(db: Session, movie_id: int, updates: schemas.MovieBase) -> models.Movie:
+def update_movie(
+    db: Session, movie_id: int, updates: schemas.MovieBase
+) -> models.Movie:
     db_movie = db.query(models.Movie).filter(models.Movie.id == movie_id).first()
 
     # There is probably a better way to update than this
