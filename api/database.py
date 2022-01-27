@@ -11,3 +11,15 @@ DATABASE_URL = "postgresql://mycoll:key_to_the_kingdom@db:5432/mycoll"
 engine = create_engine(DATABASE_URL, future=True)
 SessionLocal = scoped_session(sessionmaker(bind=engine))
 Base = declarative_base()
+
+
+def get_db():
+    """
+    This function is like a fixture that is called as a dependency in routes
+    that need a session connection to interact with the database.
+    """
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()

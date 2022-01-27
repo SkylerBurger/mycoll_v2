@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic import BaseModel
 
 
@@ -10,15 +8,12 @@ class MovieBase(BaseModel):
     mpaa_rating: str | None = None
     runtime_minutes: int | None = None
 
+    class Config:
+        orm_mode = True
+
 
 class Movie(MovieBase):
     id: int
 
     class Config:
         orm_mode = True
-
-
-class User(BaseModel):
-    username: str
-    email: str | None = None
-    disabled: bool | None = None

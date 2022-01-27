@@ -1,7 +1,9 @@
 from sqlalchemy.orm import Session
 
-import models
-import schemas
+from .. import (
+    models,
+    schemas,
+)
 
 
 def get_movie(db: Session, movie_id: int) -> models.Movie:
