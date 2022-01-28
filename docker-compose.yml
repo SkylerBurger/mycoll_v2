@@ -32,6 +32,8 @@ services:
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
       - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
 
 #  broker:
 #    image: rabbitmq:3.9-management
@@ -41,3 +43,4 @@ services:
 
 volumes:
     postgres_data:
+    pgadmin_data:
