@@ -1,12 +1,14 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 
 class MovieBase(BaseModel):
-    title: str | None = None
-    release_year: int | None = None
-    overview: str | None = None
-    mpaa_rating: str | None = None
-    runtime_minutes: int | None = None
+    title: Optional[str] = None
+    release_year: Optional[int] = None
+    overview: Optional[str] = None
+    mpaa_rating: Optional[str] = None
+    runtime_minutes: Optional[int] = None
 
     class Config:
         orm_mode = True
