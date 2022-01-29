@@ -5,12 +5,14 @@ from .. import (
     database,
     schemas,
 )
+from ..auth import oauth2_scheme
 from ..repositories import movies as repo
 
 
 router = APIRouter(
     prefix="/movies",
     tags=["movies"],
+    dependencies=[Depends(oauth2_scheme)]
 )
 
 
