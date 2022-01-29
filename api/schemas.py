@@ -19,3 +19,24 @@ class Movie(MovieBase):
 
     class Config:
         orm_mode = True
+
+
+class UserBase(BaseModel):
+    username: str
+    email: Optional[str] = None
+    full_name: Optional[str] = None
+
+    class Config:
+        orm_mode = True
+
+
+class UserSignUp(UserBase):
+    password: str
+
+
+class User(UserBase):
+    id: int
+    disabled: Optional[str] = None
+
+    class Config:
+        orm_mode = True

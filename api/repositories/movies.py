@@ -11,6 +11,7 @@ def get_movie(db: Session, movie_id: int) -> models.Movie:
 
 
 def create_movie(db: Session, movie: schemas.MovieBase) -> models.Movie:
+    # TODO: Try to unpack movie with **movie
     db_movie = models.Movie(
         title=movie.title,
         release_year=movie.release_year,
