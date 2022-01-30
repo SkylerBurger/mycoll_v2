@@ -24,5 +24,5 @@ def create_user(db: Session, user_signup: schemas.UserSignUp) -> models.User:
     return db_user
 
 
-def get_user(db: Session, username: str) -> models.User:
+def get_user_by_username(db: Session, username: str) -> models.User:
     return db.query(models.User).filter(models.User.username == username).one()
