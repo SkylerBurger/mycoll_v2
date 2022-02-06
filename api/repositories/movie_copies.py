@@ -1,4 +1,5 @@
 from fastapi import HTTPException, status
+from sqlalchemy.exc import NoResultFound
 from sqlalchemy.orm import Session
 
 from .. import (
@@ -10,10 +11,13 @@ from .. import (
 def checkout_movie_copy_for_user(
     db: Session, user: models.User, movie_copy_id: int, operation: str
 ):
-    db_movie_copy = (
-        db.query(models.MovieCopy).filter(models.MovieCopy.id == movie_copy_id).one()
-    )
-    if not db_movie_copy:
+    try:
+        db_movie_copy = (
+            db.query(models.MovieCopy)
+            .filter(models.MovieCopy.id == movie_copy_id)
+            .one()
+        )
+    except NoResultFound:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Not Found: Movie Copy with ID of {movie_copy_id}",
@@ -29,9 +33,9 @@ def checkout_movie_copy_for_user(
 
 def create_movie_copy(
     db: Session,
+    user: models.User,
     db_movie: models.Movie,
     movie_copy: schemas.MovieCopyBase,
-    user: models.User,
 ):
     db_movie_copy = models.MovieCopy(
         movie_id=db_movie.id,
@@ -49,9 +53,9 @@ def create_movie_copy(
 
 def update_movie_copy(
     db: Session,
+    user: models.User,
     movie_copy_id: int,
     updates: schemas.MovieCopyUpdate,
-    user: models.User,
 ):
     db_movie_copy = checkout_movie_copy_for_user(db, user, movie_copy_id, "PUT")
 
@@ -66,3 +70,15 @@ def update_movie_copy(
     db.refresh(db_movie_copy)
 
     return db_movie_copy
+
+
+def delete_movie_copy(
+    db: Session,
+    user: models.User,
+    movie_copy_id: int,
+):
+    db_movie_copy = checkout_movie_copy_for_user(db, user, movie_copy_id, "DELETE")
+    db.delete(db_movie_copy)
+    db.commit()
+
+    return {"status": "Data successfully deleted."}
