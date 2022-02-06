@@ -8,31 +8,30 @@ from .. import (
 
 
 def checkout_movie_copy_for_user(
-        db: Session,
-        user: models.User,
-        movie_copy_id: int,
-        operation: str
+    db: Session, user: models.User, movie_copy_id: int, operation: str
 ):
-    db_movie_copy = db.query(models.MovieCopy).filter(models.MovieCopy.id == movie_copy_id).one()
+    db_movie_copy = (
+        db.query(models.MovieCopy).filter(models.MovieCopy.id == movie_copy_id).one()
+    )
     if not db_movie_copy:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Not Found: Movie Copy with ID of {movie_copy_id}"
+            detail=f"Not Found: Movie Copy with ID of {movie_copy_id}",
         )
     if not db_movie_copy.owner_id == user.id:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail=f"Unauthorized {operation}: Movie Copy does not belong to current user."
+            detail=f"Unauthorized {operation}: Movie Copy does not belong to current user.",
         )
 
     return db_movie_copy
 
 
 def create_movie_copy(
-        db: Session,
-        db_movie: models.Movie,
-        movie_copy: schemas.MovieCopyBase,
-        user: models.User
+    db: Session,
+    db_movie: models.Movie,
+    movie_copy: schemas.MovieCopyBase,
+    user: models.User,
 ):
     db_movie_copy = models.MovieCopy(
         movie_id=db_movie.id,

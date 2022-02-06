@@ -43,7 +43,7 @@ def checkout_movie_for_user(
     if not db_movie:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Not Found: Movie with ID of {movie_id}"
+            detail=f"Not Found: Movie with ID of {movie_id}",
         )
     if not db_movie.owner_id == user.id:
         raise HTTPException(

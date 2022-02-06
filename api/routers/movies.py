@@ -29,7 +29,7 @@ def get_movies_by_user(
 def get_a_movie(
     movie_id: int,
     db: Session = Depends(database.get_db),
-    user: models.User = Depends(auth.get_current_user)
+    user: models.User = Depends(auth.get_current_user),
 ):
     return repo.checkout_movie_for_user(db, user, movie_id, "GET")
 
