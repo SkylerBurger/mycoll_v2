@@ -21,6 +21,24 @@ class Movie(MovieBase):
         orm_mode = True
 
 
+class MovieCopyBase(BaseModel):
+    platform: str
+    form: str
+    vod_link: Optional[str] = None
+
+    class Config:
+        orm_mode = True
+
+
+class MovieCopy(MovieCopyBase):
+    id: int
+    movie_id: int
+    owner_id: int
+
+    class Config:
+        orm_mode = True
+
+
 class UserBase(BaseModel):
     username: str
     email: Optional[str] = None
