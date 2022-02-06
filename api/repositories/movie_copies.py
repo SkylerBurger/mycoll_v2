@@ -1,9 +1,31 @@
+from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from .. import (
     models,
     schemas,
 )
+
+
+def checkout_movie_copy_for_user(
+        db: Session,
+        user: models.User,
+        movie_copy_id: int,
+        operation: str
+):
+    db_movie_copy = db.query(models.MovieCopy).filter(models.MovieCopy.id == movie_copy_id).one()
+    if not db_movie_copy:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Not Found: Movie Copy with ID of {movie_copy_id}"
+        )
+    if not db_movie_copy.owner_id == user.id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=f"Unauthorized {operation}: Movie Copy does not belong to current user."
+        )
+
+    return db_movie_copy
 
 
 def create_movie_copy(

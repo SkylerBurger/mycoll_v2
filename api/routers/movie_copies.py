@@ -26,3 +26,12 @@ def create_a_movie_copy(
 ):
     db_movie = checkout_movie_for_user(db, user, movie_id, "POST")
     return repo.create_movie_copy(db, db_movie, movie_copy, user)
+
+
+@router.get("/{movie_copy_id}", response_model=schemas.MovieCopy)
+def get_a_movie_copy(
+        movie_copy_id: int,
+        db: Session = Depends(auth.get_db),
+        user: models.User = Depends(auth.get_current_user),
+):
+    return repo.checkout_movie_copy_for_user(db, user, movie_copy_id, "GET")
