@@ -35,3 +35,13 @@ def get_a_movie_copy(
     user: models.User = Depends(auth.get_current_user),
 ):
     return repo.checkout_movie_copy_for_user(db, user, movie_copy_id, "GET")
+
+
+@router.put("/{movie_copy_id}", response_model=schemas.MovieCopy)
+def update_a_movie_copy(
+    movie_copy_id: int,
+    movie_copy_update: schemas.MovieCopyUpdate,
+    db: Session = Depends(auth.get_db),
+    user: models.User = Depends(auth.get_current_user),
+):
+    return repo.update_movie_copy(db, movie_copy_id, movie_copy_update, user)

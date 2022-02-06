@@ -45,3 +45,24 @@ def create_movie_copy(
     db.refresh(db_movie_copy)
 
     return db_movie_copy
+
+
+def update_movie_copy(
+    db: Session,
+    movie_copy_id: int,
+    updates: schemas.MovieCopyUpdate,
+    user: models.User,
+):
+    db_movie_copy = checkout_movie_copy_for_user(db, user, movie_copy_id, "PUT")
+
+    if updates.platform is not None:
+        db_movie_copy.platform = updates.platform
+    if updates.form is not None:
+        db_movie_copy.form = updates.form
+    if updates.vod_link is not None:
+        db_movie_copy.vod_link = updates.vod_link
+
+    db.commit()
+    db.refresh(db_movie_copy)
+
+    return db_movie_copy

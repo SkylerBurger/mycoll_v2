@@ -30,6 +30,12 @@ class MovieCopyBase(BaseModel):
         orm_mode = True
 
 
+class MovieCopyUpdate(BaseModel):
+    platform: Optional[str] = None
+    form: Optional[str] = None
+    vod_link: Optional[str] = None
+
+
 class MovieCopy(MovieCopyBase):
     id: int
     movie_id: int
