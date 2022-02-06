@@ -1,6 +1,7 @@
 from typing import List
 
 from fastapi import HTTPException, status
+from sqlalchemy.exc import NoResultFound
 from sqlalchemy.orm import Session
 
 from .. import (
@@ -39,8 +40,9 @@ def checkout_movie_for_user(
     This function fetches a movie from the database and only returns it if the
     current user.id matches the owner_id of that movie.
     """
-    db_movie = db.query(models.Movie).filter(models.Movie.id == movie_id).first()
-    if not db_movie:
+    try:
+        db_movie = db.query(models.Movie).filter(models.Movie.id == movie_id).one()
+    except NoResultFound:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Not Found: Movie with ID of {movie_id}",
