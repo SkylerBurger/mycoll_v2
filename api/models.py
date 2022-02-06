@@ -23,6 +23,17 @@ class Movie(Base):
     runtime_minutes = Column(Integer)
 
 
+class MovieCopy(Base):
+    __tablename__ = "movie_copies"
+
+    id = Column(Integer, primary_key=True, index=True)
+    movie_id = Column(Integer, ForeignKey("movies.id"))
+    owner_id = Column(Integer, ForeignKey("users.id"))
+    platform = Column(String(255))
+    form = Column(String(255))
+    vod_link = Column(String(255), nullable=True)
+
+
 class User(Base):
     __tablename__ = "users"
 
