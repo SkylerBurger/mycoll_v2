@@ -19,7 +19,7 @@ This project is a simple attempt at rebuilding a personal project in FastAPI to 
 |  **Python-jose**   | *Creation and Interpretation of JWTs* | djangorestframework-simplejwt |
 | **Python-dotenv**  | *Environment Variables Management*    | django-environ                |
 
-## Resources
+### Resources
 
 The following resources were referred to during this rebuild:
 
